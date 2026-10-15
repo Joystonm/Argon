@@ -1,0 +1,21 @@
+node_modules
+dist
+.env
+.env.local
+*.local
+.DS_Store
+.wrangler
+coverage
+test-results
+playwright-report
+*.tsbuildinfo
+
+# Output of scripts/live-assistant-check.mjs, which drives the real service.
+live-assistant.png
+
+# Third-party checkouts made while reverse-engineering Alza and ArchMorph.
+# They are other projects' code, under their own licences, and are not part of
+# this deliverable — the analysis derived from them is in REVERSE_ENGINEERING.md.
+# The notes in _research/ are mine and are kept.
+_research/alza/
+_research/archmorph/

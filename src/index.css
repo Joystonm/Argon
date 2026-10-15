@@ -1,0 +1,321 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Argon — the studio chrome.
+ *
+ * The brief asked for a light, refined, professional tool: restrained colour,
+ * excellent typography, subtle motion, and no gradients or hero text. So this
+ * file is deliberately small. It sets the typographic scale and the handful of
+ * primitives (panels, fields, buttons) that would otherwise be re-declared in
+ * every component. Everything else is Tailwind utilities in the markup.
+ */
+
+@layer base {
+  :root {
+    --ui-radius: 6px;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-paper text-ink antialiased;
+    font-family: theme('fontFamily.sans');
+    font-feature-settings: 'cv05' 1, 'ss01' 1, 'tnum' 0;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none;
+  }
+
+  /* Numeric fields line up when the digits are tabular. Architectural data is
+     mostly numbers, and a wall that reads 3.80 next to 11.00 should not look
+     like it moved. */
+  input[type='number'],
+  input[inputmode='decimal'],
+  table,
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    @apply bg-accent-soft;
+  }
+
+  /* A single, quiet focus ring. No glow, no browser default on buttons. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent/45 ring-offset-1 ring-offset-paper;
+  }
+
+  button:disabled {
+    @apply cursor-not-allowed opacity-40;
+  }
+}
+
+@layer components {
+  /* ── panels ─────────────────────────────────────────────────────────────── */
+
+  .panel {
+    @apply border border-line bg-surface;
+  }
+
+  .panel-head {
+    @apply flex h-9 shrink-0 items-center justify-between border-b border-line px-3;
+  }
+
+  .panel-title {
+    @apply text-[11px] font-semibold uppercase tracking-[0.09em] text-inkFaint;
+  }
+
+  .rail {
+    @apply flex h-full min-h-0 flex-col bg-surface;
+  }
+
+  /* ── typography ─────────────────────────────────────────────────────────── */
+
+  .label {
+    @apply block text-[11px] font-medium leading-tight text-inkSoft;
+  }
+
+  .hint {
+    @apply text-[11px] leading-snug text-inkFaint;
+  }
+
+  .metric {
+    @apply font-mono text-[13px] leading-tight text-ink;
+  }
+
+  .section-rule {
+    @apply my-2 h-px w-full bg-line;
+  }
+
+  /* ── controls ───────────────────────────────────────────────────────────── */
+
+  .btn {
+    @apply inline-flex h-7 select-none items-center justify-center gap-1.5 rounded
+           border border-line bg-surface px-2.5 text-[12px] font-medium text-inkSoft
+           transition-colors duration-100;
+  }
+
+  .btn:hover:not(:disabled) {
+    @apply border-lineStrong bg-paper text-ink;
+  }
+
+  .btn:active:not(:disabled) {
+    @apply bg-line/60;
+  }
+
+  .btn-primary {
+    @apply border-transparent bg-ink text-paper;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    @apply bg-ink/90 text-paper;
+  }
+
+  .btn-accent {
+    @apply border-transparent bg-accent text-white;
+  }
+
+  .btn-accent:hover:not(:disabled) {
+    @apply bg-accent-ink text-white;
+  }
+
+  .btn-icon {
+    @apply h-7 w-7 px-0;
+  }
+
+  .btn-ghost {
+    @apply border-transparent bg-transparent;
+  }
+
+  .btn-ghost:hover:not(:disabled) {
+    @apply border-transparent bg-line/70;
+  }
+
+  .btn-danger:hover:not(:disabled) {
+    @apply border-danger/40 bg-danger/10 text-danger;
+  }
+
+  /* Tool buttons carry state through a left rule rather than a fill, so the
+     toolbar does not turn into a row of coloured chips. */
+  .btn[aria-pressed='true'] {
+    @apply border-ink/25 bg-ink/[0.06] text-ink;
+  }
+
+  .field {
+    @apply h-7 w-full rounded border border-line bg-surface px-2 text-[12px] text-ink
+           transition-colors placeholder:text-inkFaint;
+  }
+
+  .field:hover {
+    @apply border-lineStrong;
+  }
+
+  .field:focus {
+    @apply border-accent outline-none ring-1 ring-accent/30;
+  }
+
+  .field-select {
+    @apply cursor-pointer appearance-none bg-no-repeat pr-7;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='none' stroke='%238a8580' stroke-width='1.4' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+    background-position: right 8px center;
+  }
+
+  /* Range inputs are used for lighting and material sliders. */
+  .range {
+    @apply h-7 w-full cursor-pointer appearance-none bg-transparent;
+  }
+
+  .range::-webkit-slider-runnable-track {
+    @apply h-1 rounded-full bg-line;
+  }
+
+  .range::-webkit-slider-thumb {
+    @apply mt-[-4px] h-2.5 w-2.5 appearance-none rounded-full bg-accent;
+  }
+
+  .range::-moz-range-track {
+    @apply h-1 rounded-full bg-line;
+  }
+
+  .range::-moz-range-thumb {
+    @apply h-2.5 w-2.5 rounded-full border-0 bg-accent;
+  }
+
+  /* ── chips / badges ─────────────────────────────────────────────────────── */
+
+  .chip {
+    @apply inline-flex h-5 items-center gap-1 rounded-full border border-line px-2
+           text-[11px] font-medium text-inkSoft;
+  }
+
+  .chip-error {
+    @apply border-danger/30 bg-danger/10 text-danger;
+  }
+
+  .chip-warn {
+    @apply border-warn/30 bg-warn/10 text-warn;
+  }
+
+  .chip-ok {
+    @apply border-ok/30 bg-ok/10 text-ok;
+  }
+
+  /* ── tabs ───────────────────────────────────────────────────────────────── */
+
+  .tab {
+    @apply relative flex-1 px-2 py-1.5 text-[12px] font-medium text-inkFaint transition-colors;
+  }
+
+  .tab:hover {
+    @apply text-inkSoft;
+  }
+
+  .tab[aria-selected='true'] {
+    @apply text-ink;
+  }
+
+  .tab[aria-selected='true']::after {
+    @apply absolute inset-x-1.5 -bottom-px h-px bg-ink;
+    content: '';
+  }
+
+  /* ── lists ──────────────────────────────────────────────────────────────── */
+
+  .row {
+    @apply flex items-center gap-2 rounded px-2 py-1.5 text-[12px] transition-colors;
+  }
+
+  .row:hover {
+    @apply bg-paper;
+  }
+
+  .row[aria-selected='true'] {
+    @apply bg-ink/[0.06];
+  }
+
+  .issue-row {
+    @apply w-full cursor-pointer rounded border border-line bg-surface px-2 py-1.5 text-left
+           transition-colors hover:border-lineStrong;
+  }
+
+  /* ── motion ─────────────────────────────────────────────────────────────── */
+
+  .fade-in {
+    animation: fade-in 140ms ease-out both;
+  }
+
+  .slide-up {
+    animation: slide-up 160ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in,
+    .slide-up {
+      animation: none;
+    }
+
+    * {
+      transition-duration: 1ms !important;
+    }
+  }
+
+  /* ── scrollbars ─────────────────────────────────────────────────────────── */
+
+  .scroll-y {
+    @apply min-h-0 overflow-y-auto overscroll-contain;
+  }
+
+  .scroll-y::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+
+  .scroll-y::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-lineStrong;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  .scroll-y::-webkit-scrollbar-thumb:hover {
+    @apply bg-inkFaint;
+    background-clip: content-box;
+  }
+
+  .scroll-y::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* ── canvas chrome ──────────────────────────────────────────────────────── */
+
+  .canvas-surface {
+    background-color: #f4f1ec;
+    /* A faint paper tooth so a large empty plot does not read as dead space. */
+    background-image: radial-gradient(circle at 1px 1px, rgba(28, 27, 25, 0.045) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+}
